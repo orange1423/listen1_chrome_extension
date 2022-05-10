@@ -43,6 +43,11 @@
         player.loadById(idx);
       });
     },
+    downloadById(id){
+      getPlayerAsync(mode, (player) => {
+        player.downloadById(id);
+      });
+    },
     seek(per) {
       getPlayerAsync(mode, (player) => {
         player.seek(per);

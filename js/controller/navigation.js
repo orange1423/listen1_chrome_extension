@@ -685,5 +685,10 @@ angular.module('listenone').controller('NavigationController', [
           });
       }
     };
+
+    $scope.addAndDownload = (song) => {
+      l1Player.addTrack(song);
+      l1Player.downloadById(song.id);
+    }
   },
 ]);

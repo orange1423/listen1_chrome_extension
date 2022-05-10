@@ -168,5 +168,8 @@
  "_PROTOCOL": "代理协议",
  "_HOST": "主机地址",
  "_PORT": "端口",
- "ZOOM_IN_OUT": "放大/缩小"
+ "ZOOM_IN_OUT": "放大/缩小",
+ "_DOWNLOAD_MEDIA_FILE":"下载媒体文件",
+ "_ADD_TO_DOWNLOAD_SUCCESS":"已开始下载",
+ "_DOWNLOAD_SUCCESS":"下载成功"
 }

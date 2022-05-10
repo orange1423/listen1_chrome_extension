@@ -198,6 +198,22 @@ const main = () => {
     }),
   ]);
 
+  app.directive('addAndDownload', [
+    () => ({
+      restrict: 'EA',
+      scope: {
+        song: '=addAndDownload',
+      },
+      link(scope, element, attrs) {
+        element.bind('click', (event) => {
+          l1Player.addTrack(scope.song);
+          l1Player.downloadById(scope.song.id);
+          notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
+        });
+      },
+    }),
+  ]);
+
   app.directive('openUrl', [
     '$window',
     ($window) => ({

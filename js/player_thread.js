@@ -17,6 +17,7 @@
       this.playedFrom = 0;
       this.mode = 'background';
       this.skipTime = 15;
+      this.downloadList = [];
     }
 
     setMode(newMode) {
@@ -190,6 +191,12 @@
       this.load(idx);
     }
 
+    downloadById(id) {
+      this.downloadList.push(id);
+      const idx = this.playlist.findIndex((audio) => audio.id === id);
+      this.loadMedia(idx);
+    }
+
     /**
      * Play a song in the playlist.
      * @param  {Number} index Index of the song in the playlist
@@ -203,6 +210,72 @@
         this.retrieveMediaUrl(this.index, true);
       } else {
         this.finishLoad(this.index, true);
+      }
+    }
+
+    getBlob(url) {
+      return new Promise(resolve => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            resolve(xhr.response);
+          }
+        };
+
+        xhr.send();
+      });
+    }
+
+    saveAs(blob, filename) {
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveBlob(blob, filename);
+      } else {
+        const link = document.createElement('a');
+        const body = document.querySelector('body');
+
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+
+        // fix Firefox
+        link.style.display = 'none';
+        body.appendChild(link);
+
+        link.click();
+        body.removeChild(link);
+
+        window.URL.revokeObjectURL(link.href);
+      }
+    }
+
+    download(url, filename) {
+      this.getBlob(url).then(blob => {
+        this.saveAs(blob, filename);
+      });
+    }
+
+    loadMedia(idx) {
+      this.load(idx);
+      const data = this.playlist[this.index];
+      if (!data.howl || !this._media_uri_list[data.id]) {
+        this.retrieveMediaUrl(this.index, false);
+      } else {
+        this.finishLoad(this.index, false);
+      }
+
+    }
+
+    checkDownload(data){
+      var i = this.downloadList.indexOf(data.id)
+      if(i != -1)
+      {
+        var suffix = data.url.split("?")[0].split(".").at(-1);
+        var fileName = data.title + "." + suffix;
+        this.download(data.url, fileName);
+        this.downloadList.splice(i, 1);
+        notyf.success(i18next.t('_DOWNLOAD_SUCCESS'));
       }
     }
 
@@ -223,13 +296,12 @@
           msg.type = 'BG_PLAYER:RETRIEVE_URL_SUCCESS';
 
           msg.data = { ...msg.data, ...bootinfo };
-
           this.playlist[index].bitrate = bootinfo.bitrate;
           this.playlist[index].platform = bootinfo.platform;
-
           this.setMediaURI(msg.data.url, msg.data.id);
           this.setAudioDisabled(false, msg.data.index);
           this.finishLoad(msg.data.index, playNow);
+          this.checkDownload(msg.data);
           playerSendMessage(this.mode, msg);
         },
         () => {

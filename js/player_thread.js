@@ -277,6 +277,20 @@
         this.downloadList.splice(i, 1);
         notyf.success(i18next.t('_DOWNLOAD_SUCCESS'));
       }
+      const track = data;
+      MediaService.getLyric(
+        data.id,
+        data.album_id,
+        track.lyric_url,
+        track.tlyric_url
+      ).success((res) => {
+        const { lyric, tlyric } = res;
+        if (!lyric) {
+          return;
+        }
+        var lrcBlob = new Blob([lyric]);
+        this.saveAs(lrcBlob,data.title + ".lrc");
+      });
     }
 
     retrieveMediaUrl(index, playNow) {

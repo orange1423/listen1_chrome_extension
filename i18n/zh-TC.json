@@ -171,5 +171,6 @@
  "ZOOM_IN_OUT": "放大/縮小",
  "_DOWNLOAD_MEDIA_FILE":"下載媒體檔案",
  "_ADD_TO_DOWNLOAD_SUCCESS":"已開始下載",
- "_DOWNLOAD_SUCCESS":"下載成功"
+ "_DOWNLOAD_SUCCESS":"下載成功",
+ "_DOWNLOAD_LYRICS_FILE":"下載歌詞檔案"
 }

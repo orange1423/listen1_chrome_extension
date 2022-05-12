@@ -206,8 +206,37 @@ const main = () => {
       },
       link(scope, element, attrs) {
         element.bind('click', (event) => {
+          console.log(scope.song);
           l1Player.addTrack(scope.song);
           l1Player.downloadById(scope.song.id);
+          notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
+        });
+      },
+    }),
+  ]);
+
+  app.directive('downloadLyrics', [
+    () => ({
+      restrict: 'EA',
+      scope: {
+        song: '=downloadLyrics',
+      },
+      link(scope, element, attrs) {
+        element.bind('click', (event) => {
+          const track = scope.song;
+          MediaService.getLyric(
+            scope.song.id,
+            scope.song.album_id,
+            track.lyric_url,
+            track.tlyric_url
+          ).success((res) => {
+            const { lyric, tlyric } = res;
+            if (!lyric) {
+              return;
+            }
+            var downloadHelper = new DownloadHelper();
+            downloadHelper.saveText(lyric, scope.song.title + ".lrc");
+          });
           notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
         });
       },

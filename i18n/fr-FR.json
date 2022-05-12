@@ -171,5 +171,6 @@
  "ZOOM_IN_OUT": "Zoom In/Out",
  "_DOWNLOAD_MEDIA_FILE":"Download media file",
  "_ADD_TO_DOWNLOAD_SUCCESS":"Download started",
- "_DOWNLOAD_SUCCESS":"Download success"
+ "_DOWNLOAD_SUCCESS":"Download success",
+ "_DOWNLOAD_LYRICS_FILE":"Download lyrics"
 }

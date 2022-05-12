@@ -213,49 +213,6 @@
       }
     }
 
-    getBlob(url) {
-      return new Promise(resolve => {
-        const xhr = new XMLHttpRequest();
-
-        xhr.open('GET', url, true);
-        xhr.responseType = 'blob';
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            resolve(xhr.response);
-          }
-        };
-
-        xhr.send();
-      });
-    }
-
-    saveAs(blob, filename) {
-      if (window.navigator.msSaveOrOpenBlob) {
-        navigator.msSaveBlob(blob, filename);
-      } else {
-        const link = document.createElement('a');
-        const body = document.querySelector('body');
-
-        link.href = window.URL.createObjectURL(blob);
-        link.download = filename;
-
-        // fix Firefox
-        link.style.display = 'none';
-        body.appendChild(link);
-
-        link.click();
-        body.removeChild(link);
-
-        window.URL.revokeObjectURL(link.href);
-      }
-    }
-
-    download(url, filename) {
-      this.getBlob(url).then(blob => {
-        this.saveAs(blob, filename);
-      });
-    }
-
     loadMedia(idx) {
       this.load(idx);
       const data = this.playlist[this.index];
@@ -273,24 +230,11 @@
       {
         var suffix = data.url.split("?")[0].split(".").at(-1);
         var fileName = data.title + "." + suffix;
-        this.download(data.url, fileName);
+        var downloadHelper = new DownloadHelper();
+        downloadHelper.download(data.url, fileName);
         this.downloadList.splice(i, 1);
         notyf.success(i18next.t('_DOWNLOAD_SUCCESS'));
       }
-      const track = data;
-      MediaService.getLyric(
-        data.id,
-        data.album_id,
-        track.lyric_url,
-        track.tlyric_url
-      ).success((res) => {
-        const { lyric, tlyric } = res;
-        if (!lyric) {
-          return;
-        }
-        var lrcBlob = new Blob([lyric]);
-        this.saveAs(lrcBlob,data.title + ".lrc");
-      });
     }
 
     retrieveMediaUrl(index, playNow) {

@@ -1,10 +1,16 @@
-# Listen 1 (Chrome Extension) V2.22.1
+# Listen 1 Mod By Ora (Chrome Extension) V2.22.1
 
-（最后更新于 2022 年 03 月 15 日）
+（最后更新于 2022 年 05 月 15 日）
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 
 [English Version](https://github.com/listen1/listen1_chrome_extension/blob/master/README_EN.md)
+
+## 修改说明
+
+在原作者的基础上增加了以下功能：
+- 下载音乐文件
+- 下载歌词
 
 ## 缘起
 

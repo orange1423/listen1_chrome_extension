@@ -224,16 +224,14 @@
 
     }
 
-    checkDownload(data){
+    checkDownload(data) {
       var i = this.downloadList.indexOf(data.id)
-      if(i != -1)
-      {
+      if (i != -1) {
         var suffix = data.url.split("?")[0].split(".").at(-1);
         var fileName = data.title + "." + suffix;
         var downloadHelper = new DownloadHelper();
         downloadHelper.download(data.url, fileName);
         this.downloadList.splice(i, 1);
-        notyf.success(i18next.t('_DOWNLOAD_SUCCESS'));
       }
     }
 
@@ -355,8 +353,8 @@
           onstop() {
             self.sendPlayingEvent('Stopped');
           },
-          onseek() {},
-          onvolume() {},
+          onseek() { },
+          onvolume() { },
           onloaderror(id, err) {
             playerSendMessage(this.mode, {
               type: 'BG_PLAYER:PLAY_FAILED',

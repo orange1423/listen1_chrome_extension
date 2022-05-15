@@ -37,8 +37,10 @@ class DownloadHelper {
     }
 
     download(url, filename) {
+        notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
         this.getBlob(url).then(blob => {
             this.saveAs(blob, filename);
+            notyf.success(i18next.t('_DOWNLOAD_SUCCESS'));
         });
     }
 

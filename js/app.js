@@ -206,10 +206,8 @@ const main = () => {
       },
       link(scope, element, attrs) {
         element.bind('click', (event) => {
-          console.log(scope.song);
           l1Player.addTrack(scope.song);
           l1Player.downloadById(scope.song.id);
-          notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
         });
       },
     }),
@@ -237,7 +235,6 @@ const main = () => {
             var downloadHelper = new DownloadHelper();
             downloadHelper.saveText(lyric, scope.song.title + ".lrc");
           });
-          notyf.success(i18next.t('_ADD_TO_DOWNLOAD_SUCCESS'));
         });
       },
     }),
